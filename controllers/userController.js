@@ -5,15 +5,17 @@ const { Router } = require("express");
 const router = Router();
 
 router.post("/login", async (req, res) => {
-  console.log(req.body);
   try {
-    const { username } = req.body;
-    console.log(username);
-    const candidate = await User.findOne({ username });
-    if (candidate) return res.json(candidate);
-    const user = new User({ username });
-    await user.save();
-    return res.json({ user: user });
+    const candidate = await User.findOne({ userName: req.body.userName });
+    if (candidate) {
+      res.status(200).json(candidate);
+    } else {
+      const user = new User({
+        userName: req.body.userName,
+      });
+      await user.save();
+      return res.json(user);
+    }
   } catch (error) {
     console.log(error);
     res.status(400).json({ error });
