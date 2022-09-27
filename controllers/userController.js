@@ -35,19 +35,12 @@ router.post("/sendMessage", async (req, res) => {
 
 router.get("/messages", async (req, res) => {
   try {
-    const author = req.query.author;
+    const receiver = req.query.receiver;
     const messages = await Message.find();
-    const messagesForFront = messages.map((message) => {
-      if (message.author === author) {
-        return {
-          id: message._id,
-          author: message.author,
-          title: message.title,
-          content: message.content,
-        };
-      }
-    });
-
+    const messagesForFront = messages.filter(
+      (message) => message.receiver === receiver
+    );
+    console.log(messagesForFront);
     res.status(200).json(messagesForFront);
   } catch (e) {
     res.status(400).json({ message: "Something went wrong, try again." });
