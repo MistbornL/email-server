@@ -5,17 +5,15 @@ const { Router } = require("express");
 const router = Router();
 
 router.post("/login", async (req, res) => {
+  console.log(req.body);
   try {
-    // create a new user
-
-    const candidate = await User.findOne({ userName: user.userName });
-    if (candidate) {
-      res.status(400).json({ message: "User already exists." });
-    }
-    const user = await User.create(req.body);
+    const { username } = req.body;
+    console.log(username);
+    const candidate = await User.findOne({ username });
+    if (candidate) return res.json(candidate);
+    const user = new User({ username });
     await user.save();
-    // send new user as response
-    res.json(user);
+    return res.json({ user: user });
   } catch (error) {
     console.log(error);
     res.status(400).json({ error });

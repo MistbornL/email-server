@@ -1,7 +1,10 @@
 const { Schema, model } = require("../db/connection");
 
-const User = new Schema({
+const UserSchema = new Schema({
   userName: { type: String, required: true, unique: true },
 });
 
-module.exports = model("user", User);
+// User model
+const User = model("User", UserSchema);
+
+module.exports = User;
