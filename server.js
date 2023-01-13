@@ -12,7 +12,7 @@ const { PORT = 5000 } = process.env;
 const app = express();
 
 // GLOBAL MIDDLEWARE
-app.use(cors()); // add cors headers
+app.use(cors("*")); // add cors headers
 app.use(express.json()); // parse json bodies
 
 app.get("/", (req, res) => {
